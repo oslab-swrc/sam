@@ -1,5 +1,6 @@
 # SAM
 Simple actor model for manycore (SAM) is a parallel programming model for manycore environments. This repository contains the parallel programming package for the Haskell language.
+
 SAM is licensed under the BSD3 license.
 
 # Introduction
