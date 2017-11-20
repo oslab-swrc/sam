@@ -10,6 +10,7 @@ SAM provides a scalability and coding efficiency on the manycore environment. Th
 
 # Getting Started
 SAM works in Linux environment. To use SAM, the GHC and cabal are required.
+
 This section will be released after the paper is published.
 
 # Contact Information
