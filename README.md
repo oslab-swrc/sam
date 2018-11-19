@@ -37,6 +37,7 @@ main = do
 ```
 
 You can find the details by referring to the paper below.
+
 [SAM: A Haskell Parallel Programming Model for Many-Core Systems](https://ieeexplore.ieee.org/document/8394389/)
 
 # Contact Information
