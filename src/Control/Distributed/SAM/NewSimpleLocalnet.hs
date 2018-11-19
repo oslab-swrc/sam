@@ -1,3 +1,5 @@
+-- This file is modified SimpleLocalnet.hs from distributed-process-simplelocalnet.
+--
 -- | Simple backend based on the TCP transport which offers node discovery
 -- based on UDP multicast. This is a zero-configuration backend designed to
 -- get you going with Cloud Haskell quickly without imposing any structure
