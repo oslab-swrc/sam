@@ -1,5 +1,8 @@
--- This file is modified SimpleLocalnet.hs from distributed-process-simplelocalnet.
---
+{-
+SPDX-FileCopyrightText: Copyright (c) 2021 Pusan National University
+
+SPDX-License-Identifier: BSD-3 License
+-}
 -- | Simple backend based on the TCP transport which offers node discovery
 -- based on UDP multicast. This is a zero-configuration backend designed to
 -- get you going with Cloud Haskell quickly without imposing any structure
@@ -86,8 +89,8 @@
 module  Control.Distributed.SAM.NewSimpleLocalnet
   ( -- * Initialization
     Backend(..)
-  , initializeBackend
   , initializeBackendManyCore
+  , initializeBackend
     -- * Slave nodes
   , startSlave
   , terminateSlave
@@ -154,7 +157,6 @@ import qualified Network.Transport.TCP as NT
 import qualified Network.Transport as NT (Transport)
 import qualified Network.Socket as N (HostName, ServiceName, SockAddr)
 import Control.Distributed.Process.Backend.SimpleLocalnet.Internal.Multicast (initMulticast)
-import qualified Control.Monad.Catch as CA
 
 -- | Local backend
 data Backend = Backend {
@@ -174,6 +176,7 @@ data BackendState = BackendState {
  , _peers           :: Set NodeId
  ,  discoveryDaemon :: ThreadId
  }
+
 -- | Initialize the backend
 initializeBackendManyCore :: N.HostName -> N.ServiceName -> RemoteTable -> IO Backend
 initializeBackendManyCore host port rtable = do
@@ -197,6 +200,8 @@ initializeBackendManyCore host port rtable = do
         , redirectLogsHere   = apiRedirectLogsHere backend
         }
       in return backend
+
+
 
 
 -- | Initialize the backend
@@ -285,7 +290,7 @@ apiRedirectLogsHere _backend slavecontrollers = do
 
   forM_ mLogger $ \logger -> do
 
-  CA.bracket
+  bracket
    (mapM monitor slavecontrollers)
    (mapM unmonitor)
    $ \_ -> do
@@ -355,11 +360,11 @@ slaveController = do
       case msg of
         SlaveTerminate -> return ()
         RedirectLogsTo loggerPid from -> do
-          r <- CA.try (reregister "logger" loggerPid)
+          r <- try (reregister "logger" loggerPid)
           ok <- case (r :: Either ProcessRegistrationException ()) of
                   Right _ -> return True
                   Left _  -> do
-                    s <- CA.try (register "logger" loggerPid)
+                    s <- try (register "logger" loggerPid)
                     case (s :: Either ProcessRegistrationException ()) of
                       Right _ -> return True
                       Left _  -> return False
@@ -377,7 +382,7 @@ findSlaves backend = do
   nodes <- liftIO $ findPeers backend 1000000
   -- Fire off asynchronous requests for the slave controller
 
-  CA.bracket
+  bracket
    (mapM monitorNode nodes)
    (mapM unmonitor)
    $ \_ -> do
@@ -424,7 +429,7 @@ startMaster backend proc = do
   Node.runProcess node $ do
     slaves <- findSlaves backend
     redirectLogsHere backend slaves
-    proc (map processNodeId slaves) `CA.finally` shutdownLogger
+    proc (map processNodeId slaves) `finally` shutdownLogger
 
 --
 -- | shut down the logger process. This ensures that any pending

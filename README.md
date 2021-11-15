@@ -8,37 +8,12 @@ Haskell is easy for beginners to write parallel programs by using the parallel p
 
 SAM provides a scalability and coding efficiency on the manycore environment. This package guarantees a scalability that using the Cloud Haskell on local node. And using this package, you can do map-style programming in parallel program development. Since using SAM can easily write parallel programs in manycore environment, it is not only suitable for beginners of parallel programming but also appropriate for programmers who develop applications in manycore environment.
 
-# Getting Started
-SAM works in Linux environment. To use SAM, the GHC and cabal are required. SAM can be installed by using Cabal. After installing SAM through Cabal, an example of using SAM is presented as below.
 
-```haskell
-{-# LANGUAGE TemplateHaskell #-}
-module Main where
-
-import Control.Distributed.SAM 
-
-input = [1 .. 100] :: [Int]
-
-incr :: Int -> Int
-incr x = x + 1
-
-afterFunc :: [Int] -> IO ()
-afterFunc xs = putStrLn $ show $ sum xs
-
-slaveJob :: ProcessId -> Process()
-slaveJob = $(mkSlave 'incr)
-
-remotable ['slaveJob]
-
-main = do
-    ret <- $(mCoreMap 'slaveJob) 80 3 input
-    afterFunc ret
-
-```
-
+# Publish
 You can find the details by referring to the paper below.
 
 [SAM: A Haskell Parallel Programming Model for Many-Core Systems](https://ieeexplore.ieee.org/document/8394389/)
+[SSAM: A Haskell Parallel Programming STM Based Simple Actor Model](https://iopscience.iop.org/article/10.1088/1742-6596/1566/1/012040)
 
 # Contact Information
 Please send e-mail: pllab@pusan.ac.kr
