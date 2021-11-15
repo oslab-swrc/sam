@@ -13,6 +13,7 @@ SAM provides a scalability and coding efficiency on the manycore environment. Th
 You can find the details by referring to the paper below.
 
 [SAM: A Haskell Parallel Programming Model for Many-Core Systems](https://ieeexplore.ieee.org/document/8394389/)
+
 [SSAM: A Haskell Parallel Programming STM Based Simple Actor Model](https://iopscience.iop.org/article/10.1088/1742-6596/1566/1/012040)
 
 # Contact Information
