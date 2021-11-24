@@ -1,7 +1,7 @@
 {-
 SPDX-FileCopyrightText: Copyright (c) 2021 Pusan National University
 
-SPDX-License-Identifier: BSD-3 License
+SPDX-License-Identifier: BSD-3-Clause
 -}
 -- | Simple backend based on the TCP transport which offers node discovery
 -- based on UDP multicast. This is a zero-configuration backend designed to
